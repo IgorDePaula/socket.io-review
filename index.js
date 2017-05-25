@@ -1,13 +1,20 @@
 var io = require('socket.io')(8080)
-var nsp = io.of('/chat');
-nsp.on('connection', function(socket) {
+io.on('connection', function(socket) {
+    io.on('joined',function(data){
+        console.log(data)
+    })
     console.log('Client connected.');
-    socket.on('join',function(data){
-        console.log(data,'join')
-        socket.emit('msg','Hello from server')
+    socket.emit('news', { hello: 'world' });
+    socket.on('my other event', function (data) {
+        console.log(data);
     });
-    socket.join('test')
-    socket.on('disconnect', function() {
-        console.log('Client disconnected.');
+    io.emit('this', { will: 'be received by everyone'});
+
+    socket.on('private message', function (from, msg) {
+        console.log('I received a private message by ', from, ' saying ', msg);
+    });
+
+    socket.on('disconnect', function () {
+        io.emit('user disconnected');
     });
 });
