@@ -1,6 +1,6 @@
 <script src="http://localhost:8080/socket.io/socket.io.js"></script>
 <script>
-    var socketio = io('http://localhost:8080')
+    var socketio = io('http://localhost:8080/chat')
     socketio.on('connect', function(data) {
         socketio.emit('join', 'Hello World from client');
 

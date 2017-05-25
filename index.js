@@ -1,6 +1,6 @@
 var io = require('socket.io')(8080)
-
-io.on('connection', function(socket) {
+var nsp = io.of('/chat');
+nsp.on('connection', function(socket) {
     console.log('Client connected.');
     socket.on('join',function(data){
         console.log(data,'join')
