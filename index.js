@@ -1,20 +1,23 @@
 var io = require('socket.io')(8080)
-io.on('connection', function(socket) {
-    io.on('joined',function(data){
-        console.log(data)
+var chat = io
+    .of('/chat')
+    .on('connection', function (socket) {
+        socket.join('teste')
+        chat.to('teste').emit('novo','nodo')
+       /* socket.emit('a message', {
+            that: 'only'
+            , '/chat': 'will get'
+        });
+        socket.join('test').in('test').emit('news','I\'m here')
+        chat.emit('a message', {
+            everyone: 'in'
+            , '/chat': 'will get'
+        });*/
     })
-    console.log('Client connected.');
-    socket.emit('news', { hello: 'world' });
-    socket.on('my other event', function (data) {
-        console.log(data);
-    });
-    io.emit('this', { will: 'be received by everyone'});
 
-    socket.on('private message', function (from, msg) {
-        console.log('I received a private message by ', from, ' saying ', msg);
-    });
-
-    socket.on('disconnect', function () {
-        io.emit('user disconnected');
-    });
-});
+/*
+var news = io
+    .of('/news')
+    .on('connection', function (socket) {
+        socket.emit('item', { news: 'item' });
+    });*/
